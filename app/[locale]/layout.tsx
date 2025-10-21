@@ -4,7 +4,6 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import Navigation from '@/components/Navigation';
-import DarkModeScript from '@/components/DarkModeScript';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import '../globals.css';
