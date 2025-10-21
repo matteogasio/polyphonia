@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import '../globals.css';
@@ -49,6 +50,7 @@ export default async function LocaleLayout({
       <main className="container mx-auto px-6 py-20 max-w-4xl">
         {children}
       </main>
+      <Footer />
     </NextIntlClientProvider>
   );
 }

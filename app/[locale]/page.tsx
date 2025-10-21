@@ -19,18 +19,26 @@ export default async function HomePage({
   );
 
   return (
-    <div className="space-y-20">
-      <section className="text-center py-20 px-4">
-        <h1 className="text-5xl md:text-6xl font-semibold mb-5 font-serif text-neutral-900">
-          {t('title')}
-        </h1>
-        <p className="text-lg md:text-xl text-neutral-600 mb-3">
-          {t('subtitle')}
-        </p>
-        <p className="text-sm text-neutral-500 max-w-xl mx-auto leading-relaxed">
-          {t('description')}
-        </p>
+    <div>
+      {/* Hero Section with Image */}
+      <section className="relative -mx-6 -mt-20 mb-0 h-[60vh] min-h-[400px] flex items-end justify-center overflow-visible">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: 'url(https://polyphonia.ch/assets/img/layout/header_background.jpg)',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-200 via-transparent to-transparent" style={{ backgroundImage: 'linear-gradient(to top, rgb(231 229 228) 0%, transparent 30%)' }} />
+        </div>
+        
+        <div className="relative z-10 text-center px-6 pb-0 translate-y-8 md:translate-y-12">
+          <h1 className="text-4xl md:text-5xl font-semibold font-serif text-neutral-900">
+            Universitätsorchester Polyphonia Zürich
+          </h1>
+        </div>
       </section>
+
+      <div className="space-y-20 mt-24">
 
       <section>
         <div className="flex items-center justify-between mb-6">
@@ -135,6 +143,7 @@ export default async function HomePage({
           {t('learnMore')} →
         </Link>
       </section>
+      </div>
     </div>
   );
 }
