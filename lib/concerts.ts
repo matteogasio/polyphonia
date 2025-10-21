@@ -3,13 +3,18 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+export interface Performance {
+  date: string;
+  time?: string;
+  location?: string;
+  ticketUrl?: string;
+}
+
 export interface ConcertMetadata {
   slug: string;
   title: string;
-  date: string;
-  time: string;
-  location: string;
   composers: string;
+  performances: Performance[];
 }
 
 // Get all concert slugs by reading the concerts directory
@@ -37,10 +42,8 @@ export function getConcertMetadata(slug: string, locale: string): ConcertMetadat
   return {
     slug,
     title: data.title,
-    date: data.date,
-    time: data.time,
-    location: data.location,
     composers: data.composers,
+    performances: data.performances || [],
   };
 }
 
@@ -50,5 +53,10 @@ export function getAllConcerts(locale: string): ConcertMetadata[] {
   
   return slugs
     .map(slug => getConcertMetadata(slug, locale))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date, newest first
+    .sort((a, b) => {
+      // Sort by first performance date, newest first
+      const dateA = a.performances[0]?.date || '';
+      const dateB = b.performances[0]?.date || '';
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
+    });
 }

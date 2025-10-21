@@ -44,15 +44,11 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
-      <body className="bg-stone-200 text-neutral-900">
-        <NextIntlClientProvider messages={messages}>
-          <Navigation />
-          <main className="container mx-auto px-6 py-20 max-w-4xl">
-            {children}
-          </main>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <Navigation />
+      <main className="container mx-auto px-6 py-20 max-w-4xl">
+        {children}
+      </main>
+    </NextIntlClientProvider>
   );
 }

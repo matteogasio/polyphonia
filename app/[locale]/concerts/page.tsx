@@ -22,32 +22,70 @@ export default async function ConcertsPage({
       
       <div className="space-y-6">
         {concerts.map((concert) => (
-          <Link
+          <div
             key={concert.slug}
-            href={`/concerts/${concert.slug}`}
-            className="block bg-stone-100 p-8 rounded-lg border border-stone-300 hover:border-red-600 transition-all group"
+            className="bg-stone-100 p-8 rounded-lg border border-stone-300"
           >
-            <h2 className="text-2xl font-serif font-semibold mb-3 text-neutral-900 group-hover:text-red-600 transition-colors">
-              {concert.title}
-            </h2>
-            <div className="text-neutral-600 space-y-1.5 text-sm">
-              <p>
-                <span className="font-medium text-neutral-900">{t('date')}:</span>{' '}
-                {new Date(concert.date).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-              </p>
-              <p>
-                <span className="font-medium text-neutral-900">{t('time')}:</span>{' '}
-                {concert.time}
-              </p>
-              <p>
-                <span className="font-medium text-neutral-900">{t('location')}:</span>{' '}
-                {concert.location}
-              </p>
-              <p className="mt-3 pt-3 border-t border-stone-300 text-neutral-700">
+            <Link
+              href={`/concerts/${concert.slug}`}
+              className="block group mb-6"
+            >
+              <h2 className="text-2xl font-serif font-semibold mb-3 text-neutral-900 group-hover:text-red-600 transition-colors">
+                {concert.title}
+              </h2>
+              <p className="text-neutral-700">
                 {concert.composers}
               </p>
+            </Link>
+            
+            <div className="space-y-4">
+              {concert.performances.map((performance, index) => {
+                const performanceIsUpcoming = new Date(performance.date) >= new Date();
+                
+                return (
+                  <div 
+                    key={index}
+                    className="pb-4 border-b border-stone-300 last:border-0 last:pb-0"
+                  >
+                    <div className="text-sm mb-3">
+                      <p className="font-medium text-neutral-900">
+                        {new Date(performance.date).toLocaleDateString(locale, { 
+                          weekday: 'long',
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}
+                      </p>
+                      {(performance.time || performance.location) && (
+                        <p className="text-neutral-600">
+                          {[performance.time, performance.location].filter(Boolean).join(' · ')}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {performanceIsUpcoming && (
+                      <div>
+                        {performance.ticketUrl ? (
+                          <a
+                            href={performance.ticketUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block bg-red-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-red-700 transition-colors"
+                          >
+                            {t('buyTickets')} →
+                          </a>
+                        ) : (
+                          <span className="inline-block text-sm text-neutral-500 italic">
+                            {t('ticketsSoonAvailable')}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

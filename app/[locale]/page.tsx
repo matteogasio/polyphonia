@@ -1,6 +1,7 @@
 // app/[locale]/page.tsx
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import { getAllConcerts } from '@/lib/concerts';
 
 export default async function HomePage({
   params
@@ -9,6 +10,13 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   const t = await getTranslations('Home');
+  const tConcerts = await getTranslations('Concerts');
+  
+  // Get upcoming concerts (future dates only)
+  const allConcerts = getAllConcerts(locale);
+  const upcomingConcerts = allConcerts.filter(
+    concert => concert.performances.some(p => new Date(p.date) >= new Date())
+  );
 
   return (
     <div className="space-y-20">
@@ -37,20 +45,80 @@ export default async function HomePage({
           </Link>
         </div>
         
-        <Link 
-          href={`/${locale}/concerts/hs25`}
-          className="block bg-stone-100 p-8 rounded-lg border border-stone-300 hover:border-red-600 transition-all group"
-        >
-          <h3 className="text-xl font-serif font-semibold mb-2 text-neutral-900 group-hover:text-red-600 transition-colors">
-            Herbstsemester 2025
-          </h3>
-          <p className="text-neutral-600 mb-3">
-            Borodin, Bruch, Kalinnikow
-          </p>
-          <p className="text-sm text-neutral-500">
-            12. & 17. Dezember 2025
-          </p>
-        </Link>
+        <div className="space-y-6">
+          {upcomingConcerts.length > 0 ? (
+            upcomingConcerts.map((concert) => (
+              <div
+                key={concert.slug}
+                className="bg-stone-100 p-8 rounded-lg border border-stone-300"
+              >
+                <Link 
+                  href={`/${locale}/concerts/${concert.slug}`}
+                  className="block group mb-6"
+                >
+                  <h3 className="text-xl font-serif font-semibold mb-2 text-neutral-900 group-hover:text-red-600 transition-colors">
+                    {concert.title}
+                  </h3>
+                  <p className="text-neutral-600 mb-3">
+                    {concert.composers}
+                  </p>
+                </Link>
+                
+                <div className="space-y-4">
+                  {concert.performances.map((performance, index) => {
+                    const isUpcoming = new Date(performance.date) >= new Date();
+                    
+                    return (
+                      <div 
+                        key={index}
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-stone-300 last:border-0 last:pb-0"
+                      >
+                        <div className="text-sm">
+                          <p className="font-medium text-neutral-900">
+                            {new Date(performance.date).toLocaleDateString(locale, { 
+                              weekday: 'long',
+                              year: 'numeric', 
+                              month: 'long', 
+                              day: 'numeric' 
+                            })}
+                          </p>
+                          {(performance.time || performance.location) && (
+                            <p className="text-neutral-600">
+                              {[performance.time, performance.location].filter(Boolean).join(' · ')}
+                            </p>
+                          )}
+                        </div>
+                        
+                        {isUpcoming && (
+                          <div className="flex-shrink-0">
+                            {performance.ticketUrl ? (
+                              <a
+                                href={performance.ticketUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block bg-red-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-red-700 transition-colors"
+                              >
+                                {tConcerts('buyTickets')} →
+                              </a>
+                            ) : (
+                              <span className="inline-block text-sm text-neutral-500 italic">
+                                {tConcerts('ticketsSoonAvailable')}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-neutral-600 text-center py-8">
+              {t('noUpcomingConcerts')}
+            </p>
+          )}
+        </div>
       </section>
 
       <section className="bg-stone-100 rounded-lg p-8 md:p-10 border border-stone-300">
