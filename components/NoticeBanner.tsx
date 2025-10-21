@@ -19,10 +19,10 @@ export default function NoticeBanner() {
     urgent: 'bg-red-100 text-red-900 border-red-300',
   };
 
-  const buttonStyles = {
-    info: 'bg-amber-900 hover:bg-amber-800 text-amber-50',
-    warning: 'bg-orange-900 hover:bg-orange-800 text-orange-50',
-    urgent: 'bg-red-900 hover:bg-red-800 text-red-50',
+  const linkStyles = {
+    info: 'text-amber-900 hover:text-amber-950',
+    warning: 'text-orange-900 hover:text-orange-950',
+    urgent: 'text-red-900 hover:text-red-950',
   };
 
   return (
@@ -32,9 +32,9 @@ export default function NoticeBanner() {
       </p>
       <Link 
         href={`/${locale}/join`}
-        className={`${buttonStyles[noticeConfig.type]} px-4 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+        className={`${linkStyles[noticeConfig.type]} text-sm font-medium transition-colors whitespace-nowrap`}
       >
-        {t('learnMore')}
+        {t('learnMore')} →
       </Link>
     </div>
   );
