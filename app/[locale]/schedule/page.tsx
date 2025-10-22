@@ -6,35 +6,35 @@ const rehearsals = [
   {
     date: '2025-11-05',
     time: '19:00 - 22:00',
-    location: 'ETH Zürich, Audimax',
+    location: 'Aki',
     repertoire: 'Borodin: Polovtsian Dances',
     notes: 'Tutti rehearsal'
   },
   {
     date: '2025-11-12',
     time: '19:00 - 22:00',
-    location: 'ETH Zürich, Audimax',
+    location: 'Aki',
     repertoire: 'Bruch: Kol Nidrei',
     notes: 'Strings focus'
   },
   {
     date: '2025-11-19',
     time: '19:00 - 22:00',
-    location: 'ETH Zürich, Audimax',
+    location: 'Aki',
     repertoire: 'Kalinnikov: Symphony No. 1',
     notes: 'Full orchestra'
   },
   {
     date: '2025-11-26',
     time: '19:00 - 22:00',
-    location: 'ETH Zürich, Audimax',
+    location: 'Aki',
     repertoire: 'Full program run-through',
     notes: 'Tutti rehearsal'
   },
   {
     date: '2025-12-03',
     time: '19:00 - 22:00',
-    location: 'ETH Zürich, Audimax',
+    location: 'Aki',
     repertoire: 'Full program',
     notes: 'Final touches'
   },
