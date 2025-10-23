@@ -1,13 +1,12 @@
 // components/NoticeBanner.tsx
 'use client';
 
-import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/routing';
 import { noticeConfig } from '@/lib/notice';
 
 export default function NoticeBanner() {
   const t = useTranslations('Notice');
-  const locale = useLocale();
 
   if (!noticeConfig.enabled) {
     return null;
@@ -30,7 +29,7 @@ export default function NoticeBanner() {
       <p className="text-sm font-medium text-center">
         {t(noticeConfig.messageKey)}{' '}
         <Link 
-          href={`/${locale}/join`}
+          href="/join"
           className={`${linkStyles[noticeConfig.type]} font-medium transition-colors whitespace-nowrap`}
         >
           {t('learnMore')} →

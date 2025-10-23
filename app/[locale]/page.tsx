@@ -1,6 +1,6 @@
 // app/[locale]/page.tsx
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
+import { Link } from '@/routing';
 import { getAllConcerts } from '@/lib/concerts';
 import NoticeBanner from '@/components/NoticeBanner';
 
@@ -51,7 +51,7 @@ export default async function HomePage({
             {t('upcomingConcerts')}
           </h2>
           <Link
-            href={`/${locale}/concerts`}
+            href="/concerts"
             className="text-sm text-orange-600 hover:text-orange-700 transition-colors"
           >
             {t('viewAllConcerts')} →
@@ -66,7 +66,7 @@ export default async function HomePage({
                 className="bg-stone-100 p-8 rounded-lg border border-stone-300"
               >
                 <Link 
-                  href={`/${locale}/concerts/${concert.slug}`}
+                  href={`/concerts/${concert.slug}`}
                   className="block group mb-6"
                 >
                   <h3 className="text-xl font-serif font-semibold mb-2 text-neutral-900 group-hover:text-orange-600 transition-colors">
@@ -142,7 +142,7 @@ export default async function HomePage({
           {t('description')}
         </p>
         <Link
-          href={`/${locale}/about`}
+          href="/about"
           className="inline-block text-sm text-orange-600 hover:text-orange-700 transition-colors"
         >
           {t('learnMore')} →

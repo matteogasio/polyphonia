@@ -1,7 +1,7 @@
 // app/[locale]/concerts/[slug]/page.tsx
 import { notFound } from 'next/navigation';
 import { getAllConcertSlugs } from '@/lib/concerts';
-import Link from 'next/link';
+import { Link } from '@/routing';
 import { getTranslations } from 'next-intl/server';
 
 interface ConcertPageProps {
@@ -27,7 +27,7 @@ export default async function ConcertPage({ params }: ConcertPageProps) {
     return (
       <div className="max-w-4xl mx-auto px-6 pb-8">
         <Link 
-          href={`/${locale}/concerts`}
+          href="/concerts"
           className="inline-flex items-center gap-2 text-neutral-700 hover:text-orange-600 transition-colors mb-8"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

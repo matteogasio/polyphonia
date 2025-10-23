@@ -2,31 +2,33 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { Link, usePathname, useRouter } from '@/routing';
+import { useState, useTransition } from 'react';
 
 export default function Navigation() {
   const t = useTranslations('Navigation');
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const links = [
-    { href: `/${locale}/concerts`, label: t('concerts') },
-    { href: `/${locale}/schedule`, label: t('schedule') },
-    { href: `/${locale}/about`, label: t('about') },
-    { href: `/${locale}/join`, label: t('join') },
-    { href: `/${locale}/contact`, label: t('contact') },
+    { href: '/concerts', label: t('concerts') },
+    { href: '/schedule', label: t('schedule') },
+    { href: '/about', label: t('about') },
+    { href: '/join', label: t('join') },
+    { href: '/contact', label: t('contact') },
   ];
 
-  const switchLocale = (newLocale: string) => {
-    const currentPath = pathname.replace(`/${locale}`, '');
-    return `/${newLocale}${currentPath}`;
+  const handleLocaleChange = (newLocale: string) => {
+    startTransition(() => {
+      router.replace(pathname, { locale: newLocale });
+    });
   };
 
-  // Check if on homepage - handle both /locale and /locale/ and also just /
-  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/` || pathname === '/';
+  // Check if on homepage - pathname from next-intl is already locale-agnostic
+  const isHomePage = pathname === '/' || pathname === '';
 
   return (
     <>
@@ -35,7 +37,7 @@ export default function Navigation() {
         <div className="container mx-auto px-6 py-4 max-w-4xl">
           <div className="flex items-center justify-between">
             {!isHomePage && (
-              <Link href={`/${locale}`} className="text-lg font-serif font-semibold text-neutral-700 hover:text-orange-600 transition-colors">
+              <Link href="/" className="text-lg font-serif font-semibold text-neutral-700 hover:text-orange-600 transition-colors">
                 Universitätsorchester Polyphonia
               </Link>
             )}
@@ -52,8 +54,9 @@ export default function Navigation() {
               ))}
               
               <div className="flex items-center gap-1 ml-2 pl-2 border-l border-stone-300">
-                <Link
-                  href={switchLocale('de')}
+                <button
+                  onClick={() => handleLocaleChange('de')}
+                  disabled={isPending}
                   className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors ${
                     locale === 'de'
                       ? 'bg-orange-600 text-white'
@@ -61,9 +64,10 @@ export default function Navigation() {
                   }`}
                 >
                   DE
-                </Link>
-                <Link
-                  href={switchLocale('en')}
+                </button>
+                <button
+                  onClick={() => handleLocaleChange('en')}
+                  disabled={isPending}
                   className={`px-2.5 py-1 text-xs font-medium rounded-full transition-colors ${
                     locale === 'en'
                       ? 'bg-orange-600 text-white'
@@ -71,7 +75,7 @@ export default function Navigation() {
                   }`}
                 >
                   EN
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -81,7 +85,7 @@ export default function Navigation() {
       {/* Mobile Header with Logo */}
       {!isHomePage && (
         <div className="md:hidden bg-stone-200 px-6 pt-7 pb-4">
-          <Link href={`/${locale}`} className="text-lg font-serif font-semibold text-neutral-700">
+          <Link href="/" className="text-lg font-serif font-semibold text-neutral-700">
             Universitätsorchester Polyphonia
           </Link>
         </div>
@@ -114,7 +118,7 @@ export default function Navigation() {
           <div className="md:hidden fixed top-24 right-6 bg-stone-100 rounded-2xl shadow-xl z-40 p-6 min-w-[200px]">
             <div className="flex flex-col gap-3">
               <Link
-                href={`/${locale}`}
+                href="/"
                 onClick={() => setIsMenuOpen(false)}
                 className="text-sm text-neutral-700 hover:text-orange-600 transition-colors py-2"
               >
@@ -132,9 +136,12 @@ export default function Navigation() {
               ))}
               
               <div className="flex items-center gap-2 pt-2 mt-2 border-t border-stone-300">
-                <Link
-                  href={switchLocale('de')}
-                  onClick={() => setIsMenuOpen(false)}
+                <button
+                  onClick={() => {
+                    handleLocaleChange('de');
+                    setIsMenuOpen(false);
+                  }}
+                  disabled={isPending}
                   className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
                     locale === 'de'
                       ? 'bg-orange-600 text-white'
@@ -142,10 +149,13 @@ export default function Navigation() {
                   }`}
                 >
                   DE
-                </Link>
-                <Link
-                  href={switchLocale('en')}
-                  onClick={() => setIsMenuOpen(false)}
+                </button>
+                <button
+                  onClick={() => {
+                    handleLocaleChange('en');
+                    setIsMenuOpen(false);
+                  }}
+                  disabled={isPending}
                   className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors ${
                     locale === 'en'
                       ? 'bg-orange-600 text-white'
@@ -153,7 +163,7 @@ export default function Navigation() {
                   }`}
                 >
                   EN
-                </Link>
+                </button>
               </div>
             </div>
           </div>

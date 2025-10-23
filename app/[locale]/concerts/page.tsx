@@ -1,6 +1,6 @@
 // app/[locale]/concerts/page.tsx
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
+import { Link } from '@/routing';
 import { getAllConcerts } from '@/lib/concerts';
 
 export default async function ConcertsPage({
