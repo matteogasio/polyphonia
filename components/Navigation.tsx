@@ -14,21 +14,22 @@ export default function Navigation() {
   const [isPending, startTransition] = useTransition();
 
   const links = [
-    { href: '/concerts', label: t('concerts') },
-    { href: '/schedule', label: t('schedule') },
-    { href: '/about', label: t('about') },
-    { href: '/join', label: t('join') },
-    { href: '/contact', label: t('contact') },
+    { href: '/concerts' as const, label: t('concerts') },
+    { href: '/schedule' as const, label: t('schedule') },
+    { href: '/about' as const, label: t('about') },
+    { href: '/join' as const, label: t('join') },
+    { href: '/contact' as const, label: t('contact') },
   ];
 
   const handleLocaleChange = (newLocale: string) => {
     startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
+      // Cast pathname to any to handle dynamic routes
+      router.replace(pathname as any, { locale: newLocale });
     });
   };
 
   // Check if on homepage - pathname from next-intl is already locale-agnostic
-  const isHomePage = pathname === '/' || pathname === '';
+  const isHomePage = pathname === '/';
 
   return (
     <>

@@ -66,7 +66,10 @@ export default async function HomePage({
                 className="bg-stone-100 p-8 rounded-lg border border-stone-300"
               >
                 <Link 
-                  href={`/concerts/${concert.slug}`}
+                  href={{
+                    pathname: '/concerts/[slug]',
+                    params: { slug: concert.slug }
+                  }}
                   className="block group mb-6"
                 >
                   <h3 className="text-xl font-serif font-semibold mb-2 text-neutral-900 group-hover:text-orange-600 transition-colors">
