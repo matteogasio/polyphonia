@@ -4,12 +4,14 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/routing';
 import { useState, useTransition } from 'react';
+import { useParams } from 'next/navigation';
 
 export default function Navigation() {
   const t = useTranslations('Navigation');
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -23,8 +25,17 @@ export default function Navigation() {
 
   const handleLocaleChange = (newLocale: string) => {
     startTransition(() => {
-      // Cast pathname to any to handle dynamic routes
-      router.replace(pathname as any, { locale: newLocale });
+      // Check if we're on a dynamic route (has [slug] parameter)
+      if (pathname === '/concerts/[slug]' && params.slug) {
+        // For dynamic routes, pass the slug as a parameter
+        router.replace(
+          { pathname: '/concerts/[slug]', params: { slug: params.slug as string } },
+          { locale: newLocale }
+        );
+      } else {
+        // For static routes, just pass the pathname
+        router.replace(pathname as any, { locale: newLocale });
+      }
     });
   };
 
