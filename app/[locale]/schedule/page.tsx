@@ -55,7 +55,7 @@ const rehearsals: Rehearsal[] = [
   },
   {
     date: '2025-12-10',
-    time: '19:00 - 22:00',
+    time: 'tba',
     location: 'Kirche Neumünster',
     repertoire: 'General rehearsal',
     notes: 'In concert venue'
@@ -65,7 +65,12 @@ const rehearsals: Rehearsal[] = [
 
 // This function return a react element which is a box with the information given by a rehearsal element (i.e. time, place etc.)
 // (t is the translator)
-function box_rehersal(rehearsal: Rehearsal, index: number, locale: string, t: (key: string)=> string ): React.ReactElement {
+function box_rehersal(
+  rehearsal: Rehearsal,
+  index: number,
+  locale: string,
+  t: (key: string)=> string 
+): React.ReactElement {
 
   const date = new Date(rehearsal.date);
   const isPast = date < new Date();
@@ -89,7 +94,7 @@ function box_rehersal(rehearsal: Rehearsal, index: number, locale: string, t: (k
             {rehearsal.time}
           </div>
         </div>
-        
+ 
         <div className="flex-1 space-y-2 text-sm">
           <div>
             <span className="text-xs uppercase tracking-wider text-neutral-500">
@@ -99,7 +104,7 @@ function box_rehersal(rehearsal: Rehearsal, index: number, locale: string, t: (k
               {rehearsal.location}
             </p>
           </div>
-          
+ 
           <div>
             <span className="text-xs uppercase tracking-wider text-neutral-500">
               {t('repertoire')}
@@ -108,7 +113,7 @@ function box_rehersal(rehearsal: Rehearsal, index: number, locale: string, t: (k
               {rehearsal.repertoire}
             </p>
           </div>
-          
+
           {rehearsal.notes && (
             <div className="pt-2 mt-2 border-t border-stone-300">
               <p className="text-neutral-700">
@@ -121,7 +126,54 @@ function box_rehersal(rehearsal: Rehearsal, index: number, locale: string, t: (k
     </div>
   );
 }
+// Rehearsal list instead of boxes
+function list_rehearsal(
+  rehearsal: Rehearsal,
+  index: number,
+  locale: string,
+  t: (key: string) => string
+): React.ReactElement {
+  const date = new Date(rehearsal.date);
+  const isPast = date < new Date();
 
+  return (
+    <li
+      key={index}
+      // version without alternating colours
+      // className={`flex flex-col md:flex-row md:items-center justify-between py-3 border-b border-stone-300 
+      // ${isPast ? 'opacity-50' : ''}`}
+      className={`flex md:items-center justify-between py-4 px-4
+        ${isPast ? 'opacity-50' : ''}
+        ${index % 2 == 1 ? 'bg-amber-50' : 'bg-white'}
+      `}
+    >
+      <div className="flex flex-col md:flex-row md:items-center gap-5">
+        <div className="min-w-[120px]">
+          <div className="text-sm font-medium text-neutral-900">
+            {date.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' })}
+          </div>
+          <div className="text-xs text-neutral-500">{rehearsal.time}</div>
+        </div>
+
+        <div className="text-sm text-neutral-800">
+          <span className="font-semibold">{t('location')}:</span>{' '}
+          {rehearsal.location}
+        </div>
+
+        <div className="text-sm text-neutral-800">
+          <span className="font-semibold">{t('repertoire')}:</span>{' '}
+          {rehearsal.repertoire}
+        </div>
+      </div>
+
+      {rehearsal.notes && (
+        <div className="text-xs text-neutral-600 mt-2 md:mt-0 md:ml-4 italic">
+          {rehearsal.notes}
+        </div>
+      )}
+    </li>
+  );
+}
 
 export default async function SchedulePage({
   params
@@ -137,7 +189,7 @@ export default async function SchedulePage({
   const groupedRehearsals = rehearsals.reduce((acc, rehearsal) => {
     const date = new Date(rehearsal.date);
     const monthKey = date.toLocaleDateString(locale, { year: 'numeric', month: 'long' });
-    
+
     if (!acc[monthKey]) {
       acc[monthKey] = [];
     }
@@ -153,17 +205,18 @@ export default async function SchedulePage({
       <p className="text-neutral-800 mb-10 text-sm">
         {t('subtitle')}
       </p>
-      
+ 
       <div className="space-y-10">
         {Object.entries(groupedRehearsals).map(([month, monthRehearsals]) => (
           <div key={month}>
             <h2 className="text-xl font-serif font-semibold mb-4 text-orange-600">
               {month}
             </h2>
-            
+ 
             <div className="space-y-3">
               {monthRehearsals.map((rehearsal, index) => {
-                                return (box_rehersal(rehearsal, index, locale, t));
+                    // return (box_rehersal(rehearsal, index, locale, t));
+                      return (list_rehearsal(rehearsal, index, locale ,t));
               })}
             </div>
           </div>
