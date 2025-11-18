@@ -10,7 +10,7 @@ export default async function ConcertsPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations('Concerts');
-  
+ 
   // Get all concerts with metadata from MDX frontmatter
   const concerts = getAllConcerts(locale);
 
@@ -19,7 +19,7 @@ export default async function ConcertsPage({
       <h1 className="text-4xl font-serif font-semibold mb-10 text-neutral-900">
         {t('title')}
       </h1>
-      
+
       <div className="space-y-6">
         {concerts.map((concert) => (
           <div
@@ -40,11 +40,11 @@ export default async function ConcertsPage({
                 {concert.composers}
               </p>
             </Link>
-            
+
             <div className="space-y-4">
               {concert.performances.map((performance, index) => {
                 const performanceIsUpcoming = new Date(performance.date) >= new Date();
-                
+
                 return (
                   <div 
                     key={index}
@@ -65,7 +65,7 @@ export default async function ConcertsPage({
                         </p>
                       )}
                     </div>
-                    
+
                     {performanceIsUpcoming && (
                       <div>
                         {performance.ticketUrl ? (
@@ -94,3 +94,4 @@ export default async function ConcertsPage({
     </div>
   );
 }
+

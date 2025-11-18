@@ -21,7 +21,7 @@ export interface ConcertMetadata {
 export function getAllConcertSlugs(): string[] {
   const concertsDir = path.join(process.cwd(), 'content/concerts');
   const entries = fs.readdirSync(concertsDir, { withFileTypes: true });
-  
+
   return entries
     .filter(entry => entry.isDirectory() && !entry.name.startsWith('.'))
     .map(entry => entry.name);
@@ -35,10 +35,10 @@ export function getConcertMetadata(slug: string, locale: string): ConcertMetadat
     slug,
     `${locale}.mdx`
   );
-  
+
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const { data } = matter(fileContents);
-  
+
   return {
     slug,
     title: data.title,
@@ -50,7 +50,7 @@ export function getConcertMetadata(slug: string, locale: string): ConcertMetadat
 // Get all concerts with their metadata for a specific locale
 export function getAllConcerts(locale: string): ConcertMetadata[] {
   const slugs = getAllConcertSlugs();
-  
+
   return slugs
     .map(slug => getConcertMetadata(slug, locale))
     .sort((a, b) => {
@@ -60,3 +60,4 @@ export function getAllConcerts(locale: string): ConcertMetadata[] {
       return new Date(dateB).getTime() - new Date(dateA).getTime();
     });
 }
+
