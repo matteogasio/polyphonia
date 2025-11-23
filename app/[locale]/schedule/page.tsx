@@ -16,14 +16,14 @@ export default async function SchedulePage({
   const groupedRehearsals = get_grouped_rehearsals(chronoRehearsals, locale);
 
   return (
-    <div>
+    <main>
       <h1 className="text-4xl font-serif font-semibold mb-3 text-neutral-900">
         {t("title")}
       </h1>
       <p className="text-neutral-800 mb-10 text-sm">{t("subtitle")}</p>
 
       <RehearsalItems groupedRehearsals={groupedRehearsals} locale={locale} />
-    </div>
+    </main>
   );
 }
 

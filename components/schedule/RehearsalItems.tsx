@@ -38,7 +38,7 @@ export function RehearsalItems({
             <h2 className="text-xl font-serif font-semibold mb-4 text-orange-600">
               {month.trim()}
             </h2>
-            <div className="space-y-3">
+            <section className="space-y-3">
               {monthRehearsals.map((rehearsal, index) =>
                 viewMode === "list" ? (
                   <RehearsalListItem
@@ -58,7 +58,7 @@ export function RehearsalItems({
                   />
                 )
               )}
-            </div>
+            </section>
           </div>
         ))}
       </div>

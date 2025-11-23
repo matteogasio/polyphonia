@@ -25,9 +25,8 @@ export function RehearsalListItem({
   return (
     <li
       key={index}
-      className={`flex md:items-center justify-between py-4 px-4 ${
-        isPast ? "opacity-50" : ""
-      } ${index % 2 === 1 ? "bg-amber-50" : "bg-white"}`}
+      className={`flex md:items-center justify-between py-4 px-4 ${isPast ? "opacity-50" : ""
+        } ${index % 2 === 1 ? "bg-amber-50" : "bg-white"}`}
     >
       <div className="flex flex-col md:flex-row md:items-center gap-5">
         <div className="min-w-[120px]">
@@ -40,16 +39,19 @@ export function RehearsalListItem({
           </div>
           <div className="text-xs text-neutral-500">{rehearsal.time}</div>
         </div>
-
-        <RehearsalInline label={t("location")} value={rehearsal.location} />
-        <RehearsalInline label={t("repertoire")} value={rehearsal.repertoire} />
+        <div className="flex flex-col">
+          <RehearsalInline label={t("location")} value={rehearsal.location} />
+          <RehearsalInline label={t("repertoire")} value={rehearsal.repertoire} />
+          {rehearsal.notes && (
+            <RehearsalInline label={t("notes")} value={rehearsal.notes} />
+          )}
+        </div>
       </div>
 
-      {rehearsal.notes && (
-        <div className="text-xs text-neutral-600 mt-2 md:mt-0 md:ml-4 italic">
-          {rehearsal.notes}
-        </div>
-      )}
+      <div className="text-xs text-neutral-600 mt-2 md:mt-0 md:ml-4 italic">
+        {rehearsal.register}
+      </div>
+
     </li>
   );
 }
