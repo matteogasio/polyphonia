@@ -6,6 +6,7 @@ import { locales } from "@/i18n";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Work_Sans, Playfair_Display } from "next/font/google";
 import "../globals.css";
 
@@ -22,8 +23,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Polyphonia Zürich",
-  description:
-    "Sinfonisches Orchester der ETH und Universität Zürich",
+  description: "Sinfonisches Orchester der ETH und Universität Zürich",
 };
 
 export function generateStaticParams() {
