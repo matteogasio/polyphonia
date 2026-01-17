@@ -52,6 +52,9 @@ export default async function ConcertPage({ params }: ConcertPageProps) {
                 width={300}
                 height={424}
                 className="rounded-lg shadow-lg w-full h-auto"
+                priority
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAKAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUH/8QAIhAAAgEDBAMBAAAAAAAAAAAAAQIDAAQRBRIhMQYTQWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABkRAAIDAQAAAAAAAAAAAAAAAAECAAMRIf/aAAwDAQACEQMRAD8Aw7T9Onubq3hitnkllYIiqMliTgAfapXlHhOo6HdGO8gKxt/qzKQyuPwMOKvfHobyx8t0d7C7mtpYrkxukblSrYGQQfnVXX9Z1HU7prm/vp7mVu2kck/g+AfBVJJxkE2MdZ/Z/9k="
               />
             </div>
           )}
