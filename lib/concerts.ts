@@ -63,17 +63,10 @@ export function getAllConcerts(locale: string): ConcertMetadata[] {
     });
 }
 
+// Gallery manifest generated at build time
+import galleryManifest from './gallery-manifest.json';
+
 // Get gallery images for a specific concert
 export function getConcertGalleryImages(slug: string): string[] {
-  const galleryDir = path.join(process.cwd(), 'public/images/gallery', slug);
-
-  try {
-    const files = fs.readdirSync(galleryDir);
-    return files
-      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
-      .map(file => `/images/gallery/${slug}/${file}`)
-      .sort();
-  } catch {
-    return [];
-  }
+  return (galleryManifest as Record<string, string[]>)[slug] || [];
 }
