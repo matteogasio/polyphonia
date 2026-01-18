@@ -10,9 +10,6 @@ export function DownloadICSButton({
   rehearsals: Rehearsal[];
   locale: string;
 }) {
-  // Locale-dependent orchestra name and email
-  const ORCHESTRA_NAME = locale === "de" ? "Universitätsorchester Polyphonia Zürich" : "University Orchestra Polyphonia Zürich";
-  const ORCHESTRA_EMAIL = locale === "de" ? "kontakt@polyphonia.ch" : "contact@polyphonia.ch";
   
     function formatICSDate(date: Date, allDay = false): string {
     if (allDay) {
@@ -76,7 +73,6 @@ DTSTART${allDay ? ";VALUE=DATE" : ""}:${formatICSDate(start, allDay)}
 DTEND${allDay ? ";VALUE=DATE" : ""}:${formatICSDate(end, allDay)}
 DTEND:${formatICSDate(end)}
 SUMMARY:${escapeText(summary)}
-ORGANIZER;CN=${ORCHESTRA_NAME}:mailto:${ORCHESTRA_EMAIL}
 ${rehearsal.location ? `LOCATION:${escapeText(rehearsal.location)}` : ""}
 END:VEVENT`;
       })
