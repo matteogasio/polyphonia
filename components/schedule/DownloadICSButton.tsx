@@ -7,7 +7,7 @@ export function DownloadICSButton({ locale }: { locale: string }) {
   const t = useTranslations("Schedule");
 
   const calendarUrl = `/api/calendar?locale=${locale}`;
-  const webcalUrl = `webcals://${typeof window !== 'undefined' ? window.location.host : 'polyphonia.ch'}${calendarUrl}`;
+  const webcalUrl = `webcal://${typeof window !== 'undefined' ? window.location.host : 'polyphonia.ch'}${calendarUrl}`;
 
   return (
     <div className="mb-8 flex flex-wrap gap-3">
