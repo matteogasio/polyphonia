@@ -23,7 +23,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Polyphonia Zürich",
+  title: "Universitätsorchester Polyphonia Zürich",
   description: "Sinfonisches Orchester der ETH und Universität Zürich",
 };
 
