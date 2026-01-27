@@ -49,7 +49,12 @@
     "location": "Location",
     "notes": "Notes",
     "subscribeCalendar": "Subscribe to calendar (webcal)",
-    "downloadCalendar": "Download calendar (.ics)"
+    "downloadCalendar": "Download calendar (.ics)",
+    "tutti": "Tutti",
+    "winds": "Winds",
+    "strings": "Strings",
+    "woodwinds": "Woodwinds",
+    "brass": "Brass"
   },
   "Common": {
     "readMore": "Read more",

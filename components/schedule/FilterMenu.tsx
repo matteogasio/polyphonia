@@ -3,21 +3,24 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from 'next-intl';
 import type { RehearsalFilter } from "@/types/index";
-
-const FILTERS: { label: string; value: RehearsalFilter }[] = [
-  { label: "Tutti", value: "tutti" },
-  { label: "Winds", value: "winds" },
-  { label: "Strings", value: "strings" },
-  { label: "Woodwinds", value: "woodwinds" },
-  { label: "Brass", value: "brass" },
-];
 
 export function FilterMenu({
   activeFilters,
 }: {
   activeFilters: RehearsalFilter[];
 }) {
+  const t = useTranslations('Schedule');
+
+  const FILTERS: { label: string; value: RehearsalFilter }[] = [
+    { label: t("tutti"), value: "tutti" },
+    { label: t("winds"), value: "winds" },
+    { label: t("strings"), value: "strings" },
+    { label: t("woodwinds"), value: "woodwinds" },
+    { label: t("brass"), value: "brass" },
+  ];
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
