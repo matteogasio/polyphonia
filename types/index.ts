@@ -8,5 +8,8 @@ export interface Rehearsal {
   notes?: string;     // optional fallback
   notes_de?: string;  // German notes
   notes_en?: string;  // English notes
+  section: "tutti" | "winds" | "strings" | "woodwinds" | "brass";
   highlight?: boolean; // special events like trips
 }
+export type RehearsalFilter = "tutti" | "strings" | "woodwinds" | "winds" | "brass";
+
