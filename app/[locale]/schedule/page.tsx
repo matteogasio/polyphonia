@@ -9,15 +9,10 @@ import {
 import { RehearsalItems } from "@/components/schedule/RehearsalItems";
 import { DownloadICSButton } from "@/components/schedule/DownloadICSButton";
 import { FilterMenu } from "@/components/schedule/FilterMenu";
-import type { RehearsalFilter } from "@/types/index";
+import { getFiltersForSection } from "@/types/index";
+import type { PlayerSection } from "@/types/index";
 
-const ALL_FILTERS: RehearsalFilter[] = [
-  "tutti",
-  "strings",
-  "winds",
-  "woodwinds",
-  "brass",
-];
+const VALID_SECTIONS: PlayerSection[] = ["all", "strings", "woodwinds", "brass"];
 
 export default async function SchedulePage({
   params,
@@ -25,21 +20,17 @@ export default async function SchedulePage({
 }: {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{
-    filter?: RehearsalFilter
-    clear?: "1";
+    section?: string;
   }>;
 }) {
   const { locale } = await params;
   const sp = await searchParams;
 
-  const filters: RehearsalFilter[] =
-    sp.clear === "1"
-      ? []
-      : sp.filter
-        ? Array.isArray(sp.filter)
-          ? sp.filter
-          : [sp.filter]
-        : ALL_FILTERS;
+  const section: PlayerSection = VALID_SECTIONS.includes(sp.section as PlayerSection)
+    ? (sp.section as PlayerSection)
+    : "all";
+
+  const filters = getFiltersForSection(section);
 
   const t = await getTranslations("Schedule");
 
@@ -54,13 +45,15 @@ export default async function SchedulePage({
       </h1>
       <p className="text-neutral-800 mb-10 text-sm">{t("subtitle")}</p>
 
-      <div className="flex gap-4 mb-8">
+      <div className="mb-6">
         <DownloadICSButton locale={locale} />
-        <FilterMenu activeFilters={filters} />
+      </div>
+
+      <div className="mb-6">
+        <FilterMenu activeSection={section} />
       </div>
 
       <RehearsalItems groupedRehearsals={groupedRehearsals} locale={locale} />
     </div>
   );
 }
-

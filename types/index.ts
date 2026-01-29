@@ -14,3 +14,20 @@ export interface Rehearsal {
 }
 export type RehearsalFilter = "tutti" | "strings" | "woodwinds" | "winds" | "brass";
 
+export type PlayerSection = "all" | "strings" | "woodwinds" | "brass";
+
+/** Maps a player's section to all rehearsal types they need to attend */
+export function getFiltersForSection(section: PlayerSection): RehearsalFilter[] {
+  switch (section) {
+    case "strings":
+      return ["tutti", "strings"];
+    case "woodwinds":
+      return ["tutti", "winds", "woodwinds"];
+    case "brass":
+      return ["tutti", "winds", "brass"];
+    case "all":
+    default:
+      return ["tutti", "strings", "winds", "woodwinds", "brass"];
+  }
+}
+

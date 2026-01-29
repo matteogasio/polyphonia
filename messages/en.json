@@ -54,7 +54,9 @@
     "winds": "Winds",
     "strings": "Strings",
     "woodwinds": "Woodwinds",
-    "brass": "Brass"
+    "brass": "Brass",
+    "filterLabel": "Show for:",
+    "filterAll": "All"
   },
   "Common": {
     "readMore": "Read more",

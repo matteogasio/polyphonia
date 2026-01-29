@@ -4,7 +4,6 @@
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import type { RehearsalFilter } from "@/types/index";
 
 export function DownloadICSButton({ locale }: { locale: string }) {
   const t = useTranslations("Schedule");
@@ -16,14 +15,11 @@ export function DownloadICSButton({ locale }: { locale: string }) {
   }, []);
 
   const params = new URLSearchParams();
-
   params.set("locale", locale);
 
-  if (searchParams.get("clear") === "1") {
-    params.set("clear", "1");
-  } else {
-    const filters = searchParams.getAll("filter") as RehearsalFilter[];
-    filters.forEach(f => params.append("filter", f));
+  const section = searchParams.get("section");
+  if (section) {
+    params.set("section", section);
   }
 
   const calendarUrl = `/api/calendar?${params.toString()}`;

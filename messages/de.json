@@ -54,7 +54,9 @@
     "winds": "Bläser",
     "strings": "Streicher",
     "woodwinds": "Holzbläser",
-    "brass": "Blechbläser"
+    "brass": "Blechbläser",
+    "filterLabel": "Anzeigen für:",
+    "filterAll": "Alle"
   },
   "Common": {
     "readMore": "Weiterlesen",

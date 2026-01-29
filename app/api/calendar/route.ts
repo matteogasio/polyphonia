@@ -1,27 +1,10 @@
 // app/api/calendar/route.ts
 import { NextResponse } from 'next/server';
 import rehearsalsData from '@/content/schedule/rehearsals.json';
-import type { RehearsalFilter } from '@/types/index';
-import type { Rehearsal } from '@/types/index';
+import { getFiltersForSection } from '@/types/index';
+import type { PlayerSection, Rehearsal } from '@/types/index';
 
-/*
-interface Rehearsal {
-  date: string;
-  date_end?: string;
-  time?: string;
-  location?: string;
-  notes_de: string;
-  notes_en: string;
-}
-*/
-
-const ALL_FILTERS: RehearsalFilter[] = [
-  "tutti",
-  "strings",
-  "winds",
-  "woodwinds",
-  "brass",
-];
+const VALID_SECTIONS: PlayerSection[] = ["all", "strings", "woodwinds", "brass"];
 
 function formatICSDate(date: Date, allDay = false): string {
   if (allDay) {
@@ -104,23 +87,16 @@ function generateICS(rehearsals: Rehearsal[], locale: string): string {
   ].join('\r\n');
 }
 
-function resolveFilters(
-  rawFilters: string[],
-  clear: boolean
-): RehearsalFilter[] {
-  if (clear) return [];
-  const filters = rawFilters.filter((f) => ALL_FILTERS.includes(f as RehearsalFilter)) as RehearsalFilter[];
-  return filters.length > 0 ? filters : ALL_FILTERS;
-}
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const locale = searchParams.get('locale') || 'en';
 
-  const rawFilters = searchParams.getAll("filter");
-  const clear = searchParams.get("clear") === "1";
+  const sectionParam = searchParams.get("section");
+  const section: PlayerSection = VALID_SECTIONS.includes(sectionParam as PlayerSection)
+    ? (sectionParam as PlayerSection)
+    : "all";
 
-  const filters = resolveFilters(rawFilters, clear);
+  const filters = getFiltersForSection(section);
 
   // filter rehearsals by type
   const filteredRehearsals = (rehearsalsData as Rehearsal[]).filter((r) =>
@@ -137,4 +113,3 @@ export async function GET(request: Request) {
     },
   });
 }
-
