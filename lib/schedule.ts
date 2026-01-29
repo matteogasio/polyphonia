@@ -38,16 +38,8 @@ export function get_chrono_rehearsals() {
 /* return true, if rehearsal.section belongs to filters */
 function fil(rehearsal: Rehearsal, filters: RehearsalFilter[]) {
   for (const f of filters) {
-    switch (f) {
-      case "winds":
-        if (rehearsal.section === "brass" || rehearsal.section === "woodwinds") {
-          return true;
-        };
-        break;
-      default:
-        if (rehearsal.section === f) {
-          return true
-        };
+    if (rehearsal.section === f) {
+      return true
     }
   }
   return false;

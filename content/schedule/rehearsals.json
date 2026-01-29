@@ -91,9 +91,17 @@
     "date": "2026-04-15",
     "time": "18:00-21:00",
     "location": "Aki Hirschengraben 86, 8001 Zürich",
-    "notes_de": "Streicherregisterprobe (mit Stimmführern) / Bläser & Perkussion (mit Gregor)",
-    "notes_en": "String Sectionals (with section leader) / Winds & Percussion (with Gregor)",
-    "section": "tutti"
+    "notes_de": "Streicherregisterprobe (mit Stimmführern)",
+    "notes_en": "String Sectionals (with section leader)",
+    "section": "strings"
+  },
+  {
+    "date": "2026-04-15",
+    "time": "18:00-21:00",
+    "location": "Aki Hirschengraben 86, 8001 Zürich",
+    "notes_de": "Bläser & Perkussion (mit Gregor)",
+    "notes_en": "Winds & Percussion (with Gregor)",
+    "section": "winds"
   },
   {
     "date": "2026-04-22",

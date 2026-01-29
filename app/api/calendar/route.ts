@@ -1,7 +1,10 @@
 // app/api/calendar/route.ts
 import { NextResponse } from 'next/server';
 import rehearsalsData from '@/content/schedule/rehearsals.json';
+import type { RehearsalFilter } from '@/types/index';
+import type { Rehearsal } from '@/types/index';
 
+/*
 interface Rehearsal {
   date: string;
   date_end?: string;
@@ -10,6 +13,15 @@ interface Rehearsal {
   notes_de: string;
   notes_en: string;
 }
+*/
+
+const ALL_FILTERS: RehearsalFilter[] = [
+  "tutti",
+  "strings",
+  "winds",
+  "woodwinds",
+  "brass",
+];
 
 function formatICSDate(date: Date, allDay = false): string {
   if (allDay) {
@@ -29,7 +41,9 @@ function escapeText(text: string): string {
 function generateICS(rehearsals: Rehearsal[], locale: string): string {
   const events = rehearsals
     .map((rehearsal) => {
-      const summaryText = locale === 'de' ? rehearsal.notes_de : rehearsal.notes_en;
+      const summaryText =
+        (locale === 'de' ? rehearsal.notes_de : rehearsal.notes_en)
+        ?? rehearsal.notes ?? '';
       const summary = `Polyphonia – ${summaryText}`;
       const uid = `${rehearsal.date}-${summaryText.replace(/\s/g, '-').toLowerCase()}@polyphonia.ch`;
 
@@ -90,11 +104,30 @@ function generateICS(rehearsals: Rehearsal[], locale: string): string {
   ].join('\r\n');
 }
 
+function resolveFilters(
+  rawFilters: string[],
+  clear: boolean
+): RehearsalFilter[] {
+  if (clear) return [];
+  const filters = rawFilters.filter((f) => ALL_FILTERS.includes(f as RehearsalFilter)) as RehearsalFilter[];
+  return filters.length > 0 ? filters : ALL_FILTERS;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const locale = searchParams.get('locale') || 'en';
 
-  const ics = generateICS(rehearsalsData as Rehearsal[], locale);
+  const rawFilters = searchParams.getAll("filter");
+  const clear = searchParams.get("clear") === "1";
+
+  const filters = resolveFilters(rawFilters, clear);
+
+  // filter rehearsals by type
+  const filteredRehearsals = (rehearsalsData as Rehearsal[]).filter((r) =>
+    filters.includes(r.section)
+  );
+
+  const ics = generateICS(filteredRehearsals, locale);
 
   return new NextResponse(ics, {
     headers: {
@@ -104,3 +137,4 @@ export async function GET(request: Request) {
     },
   });
 }
+
